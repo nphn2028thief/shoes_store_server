@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import OrderController from '../controllers/OrderController';
+import OrderController from '../controllers/order.controller';
 import { verifyToken } from '../middlewares/auth';
 
 const orderRoute = (route: Router) => {

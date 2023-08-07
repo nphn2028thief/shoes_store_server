@@ -1,11 +1,10 @@
 import express from 'express';
-import authRoute from './authRoute';
-import cartRoute from './cartRoute';
-import categoryRoute from './categoryRoute';
-import orderRoute from './orderRoute';
-import productRoute from './productRoute';
-import shippingAddressRoute from './shippingAddressRoute';
-import testRoute from './testRoute';
+import authRoute from './auth.routes';
+import cartRoute from './cart.routes';
+import categoryRoute from './category.routes';
+import orderRoute from './order.routes';
+import productRoute from './product.routes';
+import shippingAddressRoute from './shippingAddress.routes';
 
 const router = express.Router();
 
@@ -16,7 +15,6 @@ const routes = () => {
   orderRoute(router);
   productRoute(router);
   shippingAddressRoute(router);
-  testRoute(router);
   return router;
 };
 

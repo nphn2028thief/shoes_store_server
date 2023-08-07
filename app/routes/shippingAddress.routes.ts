@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ShippingAddressController from '../controllers/ShippingAddressController';
+import ShippingAddressController from '../controllers/shippingAddress.controller';
 import { verifyToken } from '../middlewares/auth';
 
 const shippingAddressRoute = (route: Router) => {
