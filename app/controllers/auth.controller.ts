@@ -61,6 +61,8 @@ class AuthController {
       return handlers.response.badRequest(res, error.details[0].message);
     }
 
+    console.log(value);
+
     try {
       const accountExist = await AccountSchema.findOne({ username: value.username });
 
@@ -119,8 +121,8 @@ class AuthController {
           },
           {
             $set: {
-              firstname: value.firstname,
-              lastname: value.lastname,
+              firstName: value.firstName,
+              lastName: value.lastName,
               avatar: value.avatar,
             },
           },
