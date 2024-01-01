@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      tr ~ tr {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <table
+      role="presentation"
+      style="min-width: 540px; margin: auto; background: #fff; border-radius: 8px; border: 1px solid #ccc"
+    >
+      <thead>
+        <tr>
+          <td>
+            <div style="display: flex; padding: 16px; border-bottom: 1px solid #eee">
+              <img
+                src="https://res.cloudinary.com/drsjohvgv/image/upload/v1704110371/NodeJS%20BE/logo-color_1_1_sjxgoq.png"
+                alt="My Logo"
+                height="60"
+              />
+            </div>
+          </td>
+        </tr>
+      </thead>
+
+      <tbody style="font-size: 14px">
+        <tr>
+          <td style="padding: 16px">
+            <p>Hello,</p>
+            <br />
+            <p>Your OTP is <strong style="font-size: 16px">{{otp}}</strong></p>
+            <br />
+            <p>Your request is valid in 5 minutes!</p>
+            <br />
+            <p>Regards!</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

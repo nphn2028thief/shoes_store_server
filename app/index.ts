@@ -1,8 +1,9 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
-import createHttpError from 'http-errors';
+import cors from 'cors';
 import morgan from 'morgan';
+import createHttpError from 'http-errors';
+
 import envConfig from './configs/envConfig';
 import connectToDB from './database';
 import routes from './routes';

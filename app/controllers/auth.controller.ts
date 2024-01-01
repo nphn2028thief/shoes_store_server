@@ -1,9 +1,13 @@
 import bcrypt from 'bcrypt';
 import { NextFunction, Request, Response } from 'express';
 import nodemailer from 'nodemailer';
+import Mail from 'nodemailer/lib/mailer';
 import otpGenerator from 'otp-generator';
+import fs from 'fs';
+import handlebars from 'handlebars';
+
 import envConfig from '../configs/envConfig';
-import { signAccessToken } from '../jwt';
+import { signAccessToken } from '../jwt/index';
 import AccountSchema from '../models/AccountSchema';
 import ShippingAddressShema from '../models/ShippingAddressShema';
 import { IAccount, ILoginInfo, IRegisterInfo, IResetPassword } from '../types';
@@ -171,6 +175,12 @@ class AuthController {
         specialChars: false,
       });
 
+      const source = fs.readFileSync('app/views/send-mail.html', 'utf-8').toString();
+      const template = handlebars.compile(source);
+      const html = template({
+        otp: generator,
+      });
+
       await AccountSchema.findOneAndUpdate(
         {
           email: value.email,
@@ -195,70 +205,11 @@ class AuthController {
         },
       });
 
-      const mailOption = {
-        from: envConfig.mailEmail,
+      const mailOption: Mail.Options = {
+        from: `Nguyen Nhan Admin <${envConfig.mailEmail}>`,
         to: value.email,
-        subject: 'Forgot Password',
-        // text: `${generator} <br /> Your OTP is valid in 5 minutes`,
-        html: `<div
-                style="
-                  min-height: 100vh;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  background-color: #f5f6f7;
-                "
-              >
-                <div style="width: 600px; background-color: white">
-                  <div style="padding: 10px 16px; border-bottom: 1px solid #ccc">
-                    <img
-                      src=""
-                      style="width: 148px; height: 36px; object-fit: cover"
-                      alt="logo"
-                    />
-                  </div>
-      
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: column;
-                      gap: 28px;
-                      padding: 56px 16px;
-                    "
-                  >
-                    <h4 style="text-transform: capitalize; font-weight: bold">
-                      reset password
-                    </h4>
-      
-                    <p>
-                      A password reset event has been triggered. The password reset otp is
-                      limited to five minutes.
-                    </p>
-          
-                    <p>
-                      If you do not reset your password within five minutes, you will need
-                      to submit a new request.
-                    </p>
-          
-                    <p>
-                      To complete the password reset process, fill the otp out the form:
-                    </p>
-      
-                    <p>Your OTP: <span style="font-weight: bold;">${generator}</span> </p>
-      
-                    <div style="display: flex; flex-direction: column; gap: 8px">
-                      <div style="display: flex; gap: 8px">
-                        <p style="min-width: 52px">Email</p>
-                        <p>${value.email}</p>
-                      </div>
-                      <div style="display: flex; gap: 8px">
-                        <p style="min-width: 52px">Created</p>
-                        <p>2023/06/14 09:39 GMT</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>`,
+        subject: 'Verify Your OTP',
+        html,
       };
 
       await transporter.sendMail(mailOption);
